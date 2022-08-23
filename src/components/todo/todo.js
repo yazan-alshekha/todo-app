@@ -1,40 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import useForm from '../../hooks/form.js';
+import Context from '../../context/context.js';
+import List from '../List.js';
+import Pagination from '../Pagination.js';
+
+
 
 import { v4 as uuid } from 'uuid';
 
 const ToDo = () => {
+  const { displaySetting } = useContext(Context);
+
+
 
   const [defaultValues] = useState({
     difficulty: 4,
   });
   const [list, setList] = useState([]);
+
+
   const [incomplete, setIncomplete] = useState([]);
   const { handleChange, handleSubmit } = useForm(addItem, defaultValues);
+
+  // to slice the list 
+  const indexOfLastItem = displaySetting.currentPage * displaySetting.itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - displaySetting.itemsPerPage;
+  const CurrentItems = list.slice(indexOfFirstItem, indexOfLastItem);
+
+  console.log("current ", CurrentItems);
+
 
   function addItem(item) {
     item.id = uuid();
     item.complete = false;
     console.log(item);
+
     setList([...list, item]);
+
+    // adding to global list
+
   }
 
   function deleteItem(id) {
-    const items = list.filter( item => item.id !== id );
+    const items = list.filter(item => item.id !== id);
     setList(items);
   }
 
   function toggleComplete(id) {
 
-    const items = list.map( item => {
-      if ( item.id == id ) {
-        item.complete = ! item.complete;
+    const items = list.map(item => {
+      if (item.id == id) {
+        item.complete = !item.complete;
       }
       return item;
     });
 
     setList(items);
-
   }
 
   useEffect(() => {
@@ -42,6 +63,14 @@ const ToDo = () => {
     setIncomplete(incompleteCount);
     document.title = `To Do List: ${incomplete}`;
   }, [list]);
+
+  // useEffect(() => {
+  //   let incompleteCount = globalList.filter(item => !item.complete).length;
+  //   setIncomplete(incompleteCount);
+  //   document.title = `To Do List: ${incomplete}`;
+  // }, [globalList]);
+
+
 
   return (
     <>
@@ -72,7 +101,7 @@ const ToDo = () => {
           <button type="submit">Add Item</button>
         </label>
       </form>
-
+      {/* 
       {list.map(item => (
         <div key={item.id}>
           <p>{item.text}</p>
@@ -81,8 +110,21 @@ const ToDo = () => {
           <div onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</div>
           <hr />
         </div>
-      ))}
+      ))} */}
 
+      {/* <ul>
+        {list.length > 0 && list.map((item, idx) => {
+          return <List key={item.id} item={item} />
+        })}
+      </ul> */}
+
+      {<ul>
+        {CurrentItems.length > 0 && CurrentItems.map((item, idx) => {
+          return <List key={item.id} item={item} />
+        })}
+      </ul>}
+        
+      <Pagination list={ list.length }  />
     </>
   );
 };
