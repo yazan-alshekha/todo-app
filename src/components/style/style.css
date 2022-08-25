@@ -1,0 +1,15 @@
+form{
+    border: 2px;
+    color: black;
+    background-color: aquamarine;
+}
+header{
+    background-color: #227bff;
+    width: 100%;
+    color: #f5f6f6;
+    
+}
+section{
+    background-color: #343a40;
+    color: #f5f6f6;
+}

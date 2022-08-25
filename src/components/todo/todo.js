@@ -3,10 +3,10 @@ import useForm from '../../hooks/form.js';
 import Context from '../../context/context.js';
 import List from '../List.js';
 import Pagination from '../Pagination.js';
-
-
-
 import { v4 as uuid } from 'uuid';
+
+// blueprint styling
+import { Button, FormGroup, Label, label } from "@blueprintjs/core";
 
 const ToDo = () => {
   const { displaySetting } = useContext(Context);
@@ -26,8 +26,8 @@ const ToDo = () => {
   const indexOfLastItem = displaySetting.currentPage * displaySetting.itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - displaySetting.itemsPerPage;
   const CurrentItems = list.slice(indexOfFirstItem, indexOfLastItem);
+  // console.log("current ", CurrentItems);
 
-  console.log("current ", CurrentItems);
 
 
   function addItem(item) {
@@ -74,33 +74,40 @@ const ToDo = () => {
 
   return (
     <>
-      <header>
+      <section>
         <h1>To Do List: {incomplete} items pending</h1>
-      </header>
+      </section>
+      
 
       <form onSubmit={handleSubmit}>
 
+
         <h2>Add To Do Item</h2>
 
-        <label>
+        <Label >
           <span>To Do Item</span>
           <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
-        </label>
+        </Label >
 
-        <label>
+        <Label>
           <span>Assigned To</span>
           <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
-        </label>
+        </Label>
 
-        <label>
+        <Label>
           <span>Difficulty</span>
           <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
-        </label>
-
-        <label>
+        </Label>
+     
+        {/* <label>
           <button type="submit">Add Item</button>
-        </label>
+        </label> */}
+        <Label>
+          <Button type="submit" text="Add item" className=".bp4-button bp4-icon-add .modifier " tabindex="0" />
+        </Label>
+
       </form>
+
       {/* 
       {list.map(item => (
         <div key={item.id}>
@@ -118,13 +125,15 @@ const ToDo = () => {
         })}
       </ul> */}
 
-      {<ul>
+      {/* {<ul>
         {CurrentItems.length > 0 && CurrentItems.map((item, idx) => {
           return <List key={item.id} item={item} />
         })}
-      </ul>}
-        
-      <Pagination list={ list.length }  />
+
+      </ul>} */}
+
+      <List list={CurrentItems} />
+      <Pagination list={list.length} />
     </>
   );
 };
