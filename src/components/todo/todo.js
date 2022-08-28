@@ -4,6 +4,7 @@ import Context from '../../context/context.js';
 import List from '../List.js';
 import Pagination from '../Pagination.js';
 import { v4 as uuid } from 'uuid';
+import UserDisplaySettingComponent from '../UserDisplaySettingComponent'
 
 // blueprint styling
 import { Button, FormGroup, Label, label } from "@blueprintjs/core";
@@ -74,11 +75,11 @@ const ToDo = () => {
 
   return (
     <>
+      <UserDisplaySettingComponent/>
       <section>
         <h1>To Do List: {incomplete} items pending</h1>
       </section>
       
-
       <form onSubmit={handleSubmit}>
 
 
@@ -119,18 +120,7 @@ const ToDo = () => {
         </div>
       ))} */}
 
-      {/* <ul>
-        {list.length > 0 && list.map((item, idx) => {
-          return <List key={item.id} item={item} />
-        })}
-      </ul> */}
-
-      {/* {<ul>
-        {CurrentItems.length > 0 && CurrentItems.map((item, idx) => {
-          return <List key={item.id} item={item} />
-        })}
-
-      </ul>} */}
+  
 
       <List list={CurrentItems} />
       <Pagination list={list.length} />

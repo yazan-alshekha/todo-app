@@ -7,48 +7,45 @@ function Pagination(props) {
 
     const { displaySetting ,setDisplaySetting } = useContext(Context);
 
+    // pageNumbers array is to know how many of oages i need and display them later as page number [1,2,3,4,5, .....]
     const pageNumbers = [];
-    console.log("props", props);
+    
 
     for (let i = 1; i <= Math.ceil(props.list / displaySetting.itemsPerPage); i++) {
         pageNumbers.push(i);
 
     }
 
+    
     function paginate(number){
+        console.log("ssssdererere",number);
         setDisplaySetting( prev => {
             return {...prev, currentPage:number} 
         })
     }
+
     return (
-        // <nav>
-        //     <ul>
-        //         {pageNumbers.map(number => {
-        //             return <li key={number}>
-        //                 <a href='!#' onClick={ () => { paginate(number) } } >{number}</a>
-        //             </li>
-        //         })
-        //         }
-        //     </ul>
-        // </nav>
-
-
-<Navbar className='.bp4-navbar'>
-    {/* <Navbar.Group align={Alignment.CENTER}>
-        <Navbar.Heading>blueprint</Navbar.Heading>
-        <Navbar.Divider />
-        <Button className="bp4-minimal" icon="home" text="Home" />
-        <Button className="bp4-minimal" icon="document" text="Files" />
-    </Navbar.Group> */}
-      {/* <ul>
-                 {pageNumbers.map(number => {
+        <nav>
+            <ul>
+                {pageNumbers.map(number => {
                     return <li key={number}>
                         <a href='!#' onClick={ () => { paginate(number) } } >{number}</a>
                     </li>
                 })
                 }
-            </ul> */}
-</Navbar>
+            </ul>
+            
+            {
+                // next button 
+            displaySetting.currentPage >= 1 && displaySetting.currentPage < pageNumbers.length && <Button type="button" text="Next" className=".bp4-button "  onClick={() => { paginate( displaySetting.currentPage +1 ) } } />
+            }
+            {console.log(displaySetting.currentPage)}
+                
+            {
+                // Previece button 
+            displaySetting.currentPage !=1 && <Button type="button" text="Previece " className=".bp4-button" onClick={() => { paginate( displaySetting.currentPage -1 ) } } />
+            }
+        </nav>
     );
 
 

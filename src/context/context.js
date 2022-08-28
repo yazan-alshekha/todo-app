@@ -1,36 +1,72 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState , useEffect} from "react";
+import { compileString } from "sass";
 
 export const ContextState = React.createContext();
 
 
 export function Context({ children }) {
-
-    // const [globalList, setGlobalList] = useState([]);
-
-    // const [visibleItems, setVisibleItems] = useState([]);
-
+    
+   
     const [displaySetting, setDisplaySetting] = useState({
 
         displayCompleatedItem: true,
         itemsPerPage: 2,
-        defaultSort: 0,
+        defaultSort: "",
         currentPage:1,
+        saveToLocalStorage(){
+            // function to save user Preferences to local storage
+            let userPreferences = {
+                displayCompleatedItem : this.displayCompleatedItem,
+                itemsPerPage:this.itemsPerPage,
+                defaultSort : this.defaultSort , 
+                currentPage: this.currentPage
+            }
+            localStorage.setItem("userPreferences" , JSON.stringify(userPreferences)  );
+        }
     });
 
-    // function addToGlobalList(newItem) {
+    // useEffect(()=>{
+    //     console.log("use effect");
+    //         setDisplaySetting( (prev) => {
+    //             return {
+    //                 displayCompleatedItem: displaySetting.displayCompleatedItem,
+    //                 itemsPerPage: displaySetting.itemsPerPage,
+    //                 defaultSort: "",
+    //                 currentPage:prev.currentPage,
+    //             }
+    //         } );
 
-    //     setGlobalList(prev => [...prev, newItem])
+    //         displaySetting.saveToLocalStorage();
+        
+    // },[displaySetting]);
+
+
+
+    // if  ( !localStorage.getItem('userPreferences') ) {
+
+    //     displaySetting.saveToLocalStorage();
+    //     console.log("generaL");
     // }
-    // function changeWholeGlobalList(items) {
-
-    //     setGlobalList(items)
-    //     changeNumberOfItemsPerScreen();
+    // else{
+    //     readFromLocalStorage();
+    //     // console.log("else");
+    //     // let dataFromLocalStorage=localStorage.getItem('userPreferences');
+        
+    //     // setDisplaySetting((prev)=>{
+    //     //     return {
+    //     //         ...prev,
+    //     //         displayCompleatedItem : dataFromLocalStorage.displayCompleatedItem,
+    //     //         itemsPerPage:dataFromLocalStorage.itemsPerPage,
+    //     //         defaultSort : dataFromLocalStorage.defaultSort , 
+    //     //         currentPage: dataFromLocalStorage.currentPage
+    //     //     }
+    //     // });
+    //     // console.log("display",displaySetting);
     // }
 
-    // function changeNumberOfItemsPerScreen() {
-
-    //     let array = globalList.slice(0, displaySetting.numberOfItems);
-    //     setVisibleItems(array);
+    // function readFromLocalStorage(){
+    //     console.log("read from local storage");
+    //     localStorage.getItem("userPreferences")
     // }
 
     return (
