@@ -1,44 +1,36 @@
-import React, { createContext, useState , useEffect} from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { compileString } from "sass";
 
 export const ContextState = React.createContext();
 
 
 export function Context({ children }) {
-    
-   
+
+
     const [displaySetting, setDisplaySetting] = useState({
 
         displayCompleatedItem: true,
         itemsPerPage: 2,
         defaultSort: "",
-        currentPage:1,
-        saveToLocalStorage(){
-            // function to save user Preferences to local storage
-            let userPreferences = {
-                displayCompleatedItem : this.displayCompleatedItem,
-                itemsPerPage:this.itemsPerPage,
-                defaultSort : this.defaultSort , 
-                currentPage: this.currentPage
-            }
-            localStorage.setItem("userPreferences" , JSON.stringify(userPreferences)  );
-        }
+        currentPage: 1,
     });
 
-    // useEffect(()=>{
-    //     console.log("use effect");
-    //         setDisplaySetting( (prev) => {
-    //             return {
-    //                 displayCompleatedItem: displaySetting.displayCompleatedItem,
-    //                 itemsPerPage: displaySetting.itemsPerPage,
-    //                 defaultSort: "",
-    //                 currentPage:prev.currentPage,
-    //             }
-    //         } );
+    function saveToLocalStorage() {
+        // function to save user Preferences to local storage
+        let userPreferences = {
+            displayCompleatedItem: displaySetting.displayCompleatedItem,
+            itemsPerPage: displaySetting.itemsPerPage,
+            defaultSort: displaySetting.defaultSort,
+            currentPage: displaySetting.currentPage
+        }
+        localStorage.setItem("userPreferences", JSON.stringify(userPreferences));
+    }
+    
+    useEffect(() => {
 
-    //         displaySetting.saveToLocalStorage();
-        
-    // },[displaySetting]);
+        saveToLocalStorage();
+
+    }, [displaySetting]);
 
 
 
@@ -51,7 +43,7 @@ export function Context({ children }) {
     //     readFromLocalStorage();
     //     // console.log("else");
     //     // let dataFromLocalStorage=localStorage.getItem('userPreferences');
-        
+
     //     // setDisplaySetting((prev)=>{
     //     //     return {
     //     //         ...prev,
@@ -70,7 +62,7 @@ export function Context({ children }) {
     // }
 
     return (
-        <ContextState.Provider value={{ displaySetting ,setDisplaySetting }}>
+        <ContextState.Provider value={{ displaySetting, setDisplaySetting , saveToLocalStorage}}>
             {children}
         </ContextState.Provider>
     );
