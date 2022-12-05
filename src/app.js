@@ -3,6 +3,7 @@ import List from './components/List.js';
 
 import ToDo from './components/todo/todo.js';
 import {Context} from './context/context.js';
+import LoginProvider from "./context/UserInfo";
 
 
 // blueprint styling
@@ -14,22 +15,18 @@ import Header from './components/Header.js';
 // my style file
 import "./components/style/style.css"
 
-// export default class App extends React.Component {
-//   render() {
-//     return (
-//       <ToDo />
-//     );
-//   }
-// }
-
-
 export default function App() {
   return (
     <>
+   
+      <LoginProvider>
+
       <Context>
         <Header/>
         <ToDo />
       </Context>
+      </LoginProvider>
+    
     </>
   );
 };
